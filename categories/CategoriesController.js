@@ -7,7 +7,7 @@ router.get("/admin/ultimateblog/categories/new", (req, res) => {
     res.render("admin/categories/new")
 });
 
-router.post("/ultimateblog/categories/save", (req, res) => {
+router.post("/admin/ultimateblog/categories/save", (req, res) => {
     const title = req.body.title;
     if(title != undefined){
         Category.create({
@@ -50,6 +50,40 @@ router.post("/admin/ultimateblog/categories/delete", (req, res) => {
     }else{
         res.redirect("/ultimateblog/categories");
     }
+});
+
+router.get("/admin/ultimateblog/categories/:id", (req, res) => {
+    const id = req.params.id;
+
+    if(isNaN(id)){
+        res.redirect("/ultimateblog/categories");
+    }
+
+    Category.findByPk(id).then(category => {
+        if(category != undefined){
+            
+            res.render("admin/categories/edit", {category: category});
+
+        }else{
+            res.redirect("/ultimateblog/categories");
+        }
+    }).catch(error => {
+        res.redirect("/ultimateblog/categories");
+    })
+
+});
+
+router.post("/admin/ultimateblog/categories/update", (req, res) => {
+    const id = req.body.id;
+    const title = req.body.title;
+
+    Category.update({title: title, slug: slugify(title)}, {
+        where: {
+            id: id            
+        }
+    }).then(() => {
+        res.redirect("/ultimateblog/categories");
+    })
 });
 
 module.exports = router;

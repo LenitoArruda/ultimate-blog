@@ -23,7 +23,8 @@
                     <th><%= category.title %></th>
                     <th><%= category.slug %></th>
                     <th>
-                        <button class="btn btn-warning">Edit</button>
+                        <a href="/admin/ultimateblog/categories/<%= category.id %>" class="btn btn-warning">Edit</a>
+                        </form> 
                         <form method="POST" action="/admin/ultimateblog/categories/delete" style="display: inline" onsubmit="deletionConfirm(event,this)">
                             <input type="hidden" name="id" value="<%= category.id %>">
                             <input type="hidden" name="title" value="<%= category.title %>">
