@@ -22,7 +22,7 @@ router.post("/admin/ultimateblog/categories/save", (req, res) => {
 
 });
 
-router.get("/ultimateblog/categories", (req, res) =>{
+router.get("/admin/ultimateblog/categories", (req, res) =>{
     
     Category.findAll().then(categories => {
 
@@ -41,14 +41,14 @@ router.post("/admin/ultimateblog/categories/delete", (req, res) => {
                     id: id
                 }
             }).then(() => { 
-                res.redirect("/ultimateblog/categories")
+                res.redirect("/admin/ultimateblog/categories")
             });
 
         }else{
-            res.redirect("/ultimateblog/categories");
+            res.redirect("/admin/ultimateblog/categories");
         }
     }else{
-        res.redirect("/ultimateblog/categories");
+        res.redirect("/admin/ultimateblog/categories");
     }
 });
 
@@ -56,7 +56,7 @@ router.get("/admin/ultimateblog/categories/:id", (req, res) => {
     const id = req.params.id;
 
     if(isNaN(id)){
-        res.redirect("/ultimateblog/categories");
+        res.redirect("/admin/ultimateblog/categories");
     }
 
     Category.findByPk(id).then(category => {
@@ -65,10 +65,10 @@ router.get("/admin/ultimateblog/categories/:id", (req, res) => {
             res.render("admin/categories/edit", {category: category});
 
         }else{
-            res.redirect("/ultimateblog/categories");
+            res.redirect("/admin/ultimateblog/categories");
         }
     }).catch(error => {
-        res.redirect("/ultimateblog/categories");
+        res.redirect("/admin/ultimateblog/categories");
     })
 
 });
