@@ -1,16 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const Catedory = require("../categories/Category");
+const Category = require("../categories/Category");
 const Article = require("../articles/Article");
 const slugify = require("slugify");
 
 
 router.get("/admin/ultimateblog/articles", (req, res) => {
-    res.render("admin/articles/index")
+    
+    Article.findAll({
+        include: [{model: Category}]
+    }).then(articles => {
+        res.render("admin/articles/index", {articles: articles})
+    })
+    
+    
 });
 
 router.get("/admin/ultimateblog/articles/new", (req, res) => {
-    Catedory.findAll().then(categories => {
+    Category.findAll().then(categories => {
         res.render("admin/articles/new",{categories:categories})
     })
     

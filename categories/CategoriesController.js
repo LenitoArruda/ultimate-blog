@@ -14,7 +14,7 @@ router.post("/admin/ultimateblog/categories/save", (req, res) => {
             title: title,
             slug: slugify(title)
         }).then(() =>{
-            res.redirect("/ultimateblog/categories");
+            res.redirect("/admin/ultimateblog/categories");
         })
     }else{
         res.redirect("/admin/ultimateblog/categories/new")
@@ -82,7 +82,7 @@ router.post("/admin/ultimateblog/categories/update", (req, res) => {
             id: id            
         }
     }).then(() => {
-        res.redirect("/ultimateblog/categories");
+        res.redirect("/admin/ultimateblog/categories");
     })
 });
 
