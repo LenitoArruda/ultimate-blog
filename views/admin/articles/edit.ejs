@@ -1,0 +1,29 @@
+<%- include ('../../partials/header.ejs') %>
+<%- include ('../../partials/navbar.ejs') %>
+
+<div class="container">
+    <hr>
+    <div class="card">
+        <div class="card-header">
+            <h2>Category Edition</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="/admin/ultimateblog/articles/update">
+                <input class="form-control" type="text" name="title" placeholder="Define the article title" value="<%= article.title %>"><br>
+                <input type="hidden" name="id" value="<%= article.id %>"><br>
+                <textarea id="article" class="form-control" placeholder="Write the article here" name="body"></textarea><br>
+                <label>Categories</label>
+                <br>
+                <select name="category" class="form-control">
+                    <% categories.forEach((category) => { %>
+                        <option value="<%= category.id %>"><%= category.title %></option>
+                    <% }) %>
+                </select>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<%- include ('../../partials/footer.ejs') %>

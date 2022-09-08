@@ -36,7 +36,66 @@ router.post("/admin/ultimateblog/articles/save", (req, res) => {
     }).then(() => {
         res.redirect("/admin/ultimateblog/articles");
     })
-})
+});
+
+router.post("/admin/ultimateblog/articles/delete", (req, res) => {
+
+    const id = req.body.id;
+    if( id != undefined ){
+        if (!isNaN(id)){
+            Article.destroy({
+                where: {
+                    id: id
+                }
+            }).then(() => { 
+                res.redirect("/admin/ultimateblog/articles")
+            });
+
+        }else{
+            res.redirect("/admin/ultimateblog/articles");
+        }
+    }else{
+        res.redirect("/admin/ultimateblog/articles");
+    }
+
+});
+
+router.get("/admin/ultimateblog/articles/:id", (req, res) => {
+    const id = req.params.id;
+
+    if(isNaN(id)){
+        res.redirect("/admin/ultimateblog/articles");
+    }
+
+    Category.findByPk(id).then(article => {
+        if(article != undefined){
+            
+            res.render("admin/categories/edit", {article: article});
+
+        }else{
+            res.redirect("/admin/ultimateblog/articles");
+        }
+    }).catch(error => {
+        res.redirect("/admin/ultimateblog/articles");
+    })
+
+});
+
+router.post("/admin/ultimateblog/articles/update", (req, res) => {
+    const id = req.body.id;
+    const title = req.body.title;
+    const body = req.body.body;
+    const categoryId = req.body.categoryId;
+
+    Category.update({title: title, slug: slugify(title)}, {
+        where: {
+            id: id            
+        }
+    }).then(() => {
+        res.redirect("/admin/ultimateblog/articles");
+    })
+});
+
 
 
 module.exports = router;
