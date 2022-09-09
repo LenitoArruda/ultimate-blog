@@ -34,7 +34,11 @@ app.use("/", articlesController);
 
 //Routes
 app.get("/ultimateblog",(req, res) => {
-    res.render("index");
+    Article.findAll().then(articles => {
+        res.render("index", {articles: articles});
+    })
+
+    
 });
 
 
