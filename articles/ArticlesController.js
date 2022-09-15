@@ -60,46 +60,41 @@ router.post("/admin/ultimateblog/articles/delete", (req, res) => {
 
 });
 
-router.get("/admin/ultimateblog/articles/:id", (req, res) => {
+
+router.get("/admin/ultimateblog/articles/edit/:id", (req, res) => {
     const id = req.params.id;
-
-    if(isNaN(id)){
-        res.redirect("/admin/ultimateblog/articles");
-    }
-
     Article.findByPk(id).then(article => {
-        if(article != undefined){
+        if(article !=undefined){
+            Category.findAll().then(categories => {
+                res.render("admin/articles/edit", {categories: categories, article: article})
+            });
             
-            res.render("admin/categories/edit", {article: article});
-
         }else{
-            res.redirect("/admin/ultimateblog/articles");
+            req.redirect("/admin/ultimateblog/articles");
         }
-    }).catch(error => {
-        res.redirect("/admin/ultimateblog/articles");
-    })
+    }).catch(err => {
+        req.redirect("/admin/ultimateblog/articles");
+    });
 
+    
 });
 
-router.post("/admin/ultimateblog/articles/edit/:id", (req, res) => {
+router.post("/admin/ultimateblog/articles/update", (req, res) => {
     const id = req.body.id;
     const title = req.body.title;
     const body = req.body.body;
-    const categoryId = req.body.categoryId;
+    const category = req.body.category;
 
-    Category.update({title: title, slug: slugify(title)}, {
+    Article.update({title: title, body: body, categoryId: category, slug:slugify(title)},{
         where: {
-            id: id            
+            id: id
         }
     }).then(() => {
-        res.redirect("/admin/ultimateblog/articles");
+        res.redirect("/admin/ultimateblog/articles")
+    }).catch(err => {
+        res.redirect("/admin/ultimateblog/articles")
     })
+
 });
-
-router.get("/admin/ultimateblog/articles/edit", (req, res) => {
-    res.render("admin/categories/edit")
-})
-
-
 
 module.exports = router;

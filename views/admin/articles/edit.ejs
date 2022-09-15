@@ -5,17 +5,23 @@
     <hr>
     <div class="card">
         <div class="card-header">
-            <h2>Update Article</h2>
+            <h2>Edit Article</h2>
         </div>
         <div class="card-body">
-            <form method="POST" action="/admin/ultimateblog/articles/save">
-                <input class="form-control" type="text" name="title" placeholder="Define the article title"><br>
-                <textarea id="article" class="form-control" placeholder="Write the article here" name="body"></textarea><br>
+            <form method="POST" action="/admin/ultimateblog/articles/update">
+                <input type="hidden" value="<%= article.id %>" name="id">
+                <input class="form-control" type="text" name="title" placeholder="Define the article title" value="<%= article.title %>"><br>
+                <textarea id="body" class="form-control" placeholder="Write the article here" name="body"><%- article.body %></textarea><br>
                 <label>Categories</label>
                 <br>
                 <select name="category" class="form-control">
                     <% categories.forEach((category) => { %>
-                        <option value="<%= category.id %>"><%= category.title %></option>
+                        <% if(category.id == article.categoryId) { %>
+                            <option value="<%= category.id %>" selected><%= category.title %></option>
+                        <% }else{ %>
+                            <option value="<%= category.id %>"><%= category.title %></option>
+                        <% } %>    
+                        
                     <% }) %>
                 </select>
                 <br>
@@ -26,13 +32,12 @@
 </div>
 
 
-
 <%- include ('../../partials/footer.ejs') %>
 <script src="/tinymce/tinymce.min.js"></script>
 <script>
     tinymce.init({
        // language: 'pt_BR',
-        selector: "#article",
+        selector: "#body",
         plugins: [
             'image',
             'media',
