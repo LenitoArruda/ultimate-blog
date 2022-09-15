@@ -52,7 +52,7 @@ router.post("/admin/ultimateblog/categories/delete", (req, res) => {
     }
 });
 
-router.get("/admin/ultimateblog/categories/:id", (req, res) => {
+router.get("/admin/ultimateblog/categories/edit/:id", (req, res) => {
     const id = req.params.id;
 
     if(isNaN(id)){
@@ -73,7 +73,7 @@ router.get("/admin/ultimateblog/categories/:id", (req, res) => {
 
 });
 
-router.post("/admin/ultimateblog/categories/update", (req, res) => {
+router.post("/admin/ultimateblog/categories/edit", (req, res) => {
     const id = req.body.id;
     const title = req.body.title;
 

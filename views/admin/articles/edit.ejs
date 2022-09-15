@@ -5,12 +5,11 @@
     <hr>
     <div class="card">
         <div class="card-header">
-            <h2>Category Edition</h2>
+            <h2>Update Article</h2>
         </div>
         <div class="card-body">
-            <form method="POST" action="/admin/ultimateblog/articles/update">
-                <input class="form-control" type="text" name="title" placeholder="Define the article title" value="<%= article.title %>"><br>
-                <input type="hidden" name="id" value="<%= article.id %>"><br>
+            <form method="POST" action="/admin/ultimateblog/articles/save">
+                <input class="form-control" type="text" name="title" placeholder="Define the article title"><br>
                 <textarea id="article" class="form-control" placeholder="Write the article here" name="body"></textarea><br>
                 <label>Categories</label>
                 <br>
@@ -19,6 +18,8 @@
                         <option value="<%= category.id %>"><%= category.title %></option>
                     <% }) %>
                 </select>
+                <br>
+                <button class="btn btn-success">Update</button>
             </form>
         </div>
     </div>
@@ -27,3 +28,28 @@
 
 
 <%- include ('../../partials/footer.ejs') %>
+<script src="/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+       // language: 'pt_BR',
+        selector: "#article",
+        plugins: [
+            'image',
+            'media',
+            'advlist', 
+            'autolink',
+            'link',
+            'image', 
+            'lists', 
+            'preview', 
+            'searchreplace', 
+            'wordcount', 
+            'fullscreen', 
+            'insertdatetime', 
+            'save', 
+            'table', 
+            'emoticons'
+        ]
+    })
+
+</script>

@@ -67,7 +67,7 @@ router.get("/admin/ultimateblog/articles/:id", (req, res) => {
         res.redirect("/admin/ultimateblog/articles");
     }
 
-    Category.findByPk(id).then(article => {
+    Article.findByPk(id).then(article => {
         if(article != undefined){
             
             res.render("admin/categories/edit", {article: article});
@@ -81,7 +81,7 @@ router.get("/admin/ultimateblog/articles/:id", (req, res) => {
 
 });
 
-router.post("/admin/ultimateblog/articles/update", (req, res) => {
+router.post("/admin/ultimateblog/articles/edit/:id", (req, res) => {
     const id = req.body.id;
     const title = req.body.title;
     const body = req.body.body;
@@ -95,6 +95,10 @@ router.post("/admin/ultimateblog/articles/update", (req, res) => {
         res.redirect("/admin/ultimateblog/articles");
     })
 });
+
+router.get("/admin/ultimateblog/articles/edit", (req, res) => {
+    res.render("admin/categories/edit")
+})
 
 
 

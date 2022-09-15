@@ -34,14 +34,61 @@ app.use("/", articlesController);
 
 //Routes
 app.get("/ultimateblog",(req, res) => {
-    Article.findAll().then(articles => {
-        res.render("index", {articles: articles});
+    Article.findAll({
+        order: [
+            ['id', 'DESC']
+        ]
+    }).then(articles => {
+        Category.findAll().then(categories => {
+            res.render("index", {articles: articles, categories: categories});
+        });
+        
     })
 
     
 });
 
 
+app.get("/ultimateblog/:slug",(req, res) => {
+   const slug = req.params.slug;
+   Article.findOne({
+        where:{
+            slug: slug
+        }
+   }).then(article => {
+        if(article != undefined){
+            Category.findAll().then(categories => {
+                res.render("article", {article: article, categories: categories});
+            });
+        }else{
+            res.redirect("/ultimateblog");
+        }
+   }).catch(err => {
+        console.log(err);
+        res.redirect("/ultimateblog");
+   })
+});
+
+app.get("/ultimateblog/category/:slug",(req, res) => {
+    const slug = req.params.slug;
+    Category.findOne({
+        where: {
+            slug:slug
+        },
+        include: [{model: Article}]
+    }).then(category => {
+        if(category != undefined){
+            Category.findAll().then(categories => {
+                res.render("index", {articles: category.articles, categories: categories});
+            });
+        }else{
+            res.redirect("/ultimateblog");
+        }
+    }).catch(err => {
+        res.redirect("/ultimateblog");
+    });
+    
+})
 
 
 app.listen(8080, () => {
