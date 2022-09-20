@@ -97,4 +97,19 @@ router.post("/admin/ultimateblog/articles/update", (req, res) => {
 
 });
 
+router.get("/ultimateblog/articles/page/:num", (req, res) => {
+    const page = req.params.num;
+    const offset = 0;
+    if(isNaN(page) || page == 1){
+        offset = 0
+    }
+
+    Article.findAndCountAll({
+        limit: 4,
+        offset: 2
+    }).then(articles => {
+    res.json(articles);
+    })
+})
+
 module.exports = router;
