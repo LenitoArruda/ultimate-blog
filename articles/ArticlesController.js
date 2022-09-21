@@ -101,7 +101,9 @@ router.get("/ultimateblog/articles/page/:num", (req, res) => {
     const page = req.params.num;
     const offset = 0;
     if(isNaN(page) || page == 1){
-        offset = 0
+        offset = 0;
+    }else{
+        ofsset = page;
     }
 
     Article.findAndCountAll({
@@ -111,5 +113,7 @@ router.get("/ultimateblog/articles/page/:num", (req, res) => {
     res.json(articles);
     })
 })
+
+//router.get();
 
 module.exports = router;
