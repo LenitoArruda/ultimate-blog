@@ -99,19 +99,36 @@ router.post("/admin/ultimateblog/articles/update", (req, res) => {
 
 router.get("/ultimateblog/articles/page/:num", (req, res) => {
     const page = req.params.num;
-    const offset = 0;
+    let offset = 0;
     if(isNaN(page) || page == 1){
         offset = 0;
     }else{
-        ofsset = page;
+        offset = (parseInt(page)-1) * 4;
     }
 
     Article.findAndCountAll({
         limit: 4,
-        offset: 2
+        offset: offset,
+        order: [
+            ['id', 'DESC']
+        ]
     }).then(articles => {
-    res.json(articles);
-    })
+        let next;
+        if(offset + 4 >= articles.count){
+            next = false;
+        }else{
+            next = true;
+        }
+        let result = {
+            page: parseInt(page),
+            next: next,
+            articles: articles
+        }
+
+        Category.findAll().then(categories => {
+            res.render("admin/articles/page", {result: result, categories: categories})
+        });
+    });
 })
 
 //router.get();
