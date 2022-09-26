@@ -11,6 +11,17 @@
             <form method="POST" action="/admin/ultimateblog/categories/save">
                 <input class="form-control" type="text" name="title" placeholder="Define the category title"><br>
                 <button class="btn btn-success">Register</button>
+                <input type="hidden" name="form_submission[source]" id="form_submission_source" value="utmSource()">
+
+                <script>
+                    function utmSource(){
+                    var url_string = window.location.href;
+                    var url = new URL(url_string);
+                    var data = url.searchParams.get("utm_source"); 
+                    return data;
+                    }
+                    console.log(utmSource());
+                </script>
             </form>
         </div>
     </div>

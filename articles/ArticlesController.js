@@ -3,9 +3,10 @@ const router = express.Router();
 const Category = require("../categories/Category");
 const Article = require("../articles/Article");
 const slugify = require("slugify");
+const adminAuth = require("../middlewares/adminAuth");
 
 
-router.get("/admin/ultimateblog/articles", (req, res) => {
+router.get("/admin/ultimateblog/articles", adminAuth, (req, res) => {
     
     Article.findAll({
         include: [{model: Category}]
@@ -16,14 +17,14 @@ router.get("/admin/ultimateblog/articles", (req, res) => {
     
 });
 
-router.get("/admin/ultimateblog/articles/new", (req, res) => {
+router.get("/admin/ultimateblog/articles/new", adminAuth, (req, res) => {
     Category.findAll().then(categories => {
         res.render("admin/articles/new",{categories:categories})
     })
     
 });
 
-router.post("/admin/ultimateblog/articles/save", (req, res) => {
+router.post("/admin/ultimateblog/articles/save", adminAuth, (req, res) => {
     const title = req.body.title;
     const body = req.body.body;
     const category = req.body.category;
@@ -38,7 +39,7 @@ router.post("/admin/ultimateblog/articles/save", (req, res) => {
     })
 });
 
-router.post("/admin/ultimateblog/articles/delete", (req, res) => {
+router.post("/admin/ultimateblog/articles/delete", adminAuth, (req, res) => {
 
     const id = req.body.id;
     if( id != undefined ){
@@ -61,7 +62,7 @@ router.post("/admin/ultimateblog/articles/delete", (req, res) => {
 });
 
 
-router.get("/admin/ultimateblog/articles/edit/:id", (req, res) => {
+router.get("/admin/ultimateblog/articles/edit/:id", adminAuth, (req, res) => {
     const id = req.params.id;
     Article.findByPk(id).then(article => {
         if(article !=undefined){
@@ -79,7 +80,7 @@ router.get("/admin/ultimateblog/articles/edit/:id", (req, res) => {
     
 });
 
-router.post("/admin/ultimateblog/articles/update", (req, res) => {
+router.post("/admin/ultimateblog/articles/update", adminAuth, (req, res) => {
     const id = req.body.id;
     const title = req.body.title;
     const body = req.body.body;

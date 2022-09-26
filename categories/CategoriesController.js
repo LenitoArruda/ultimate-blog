@@ -2,12 +2,13 @@ const express = require("express");
 const router = express.Router();
 const Category = require("./Category");
 const slugify = require("slugify");
+const adminAuth = require("../middlewares/adminAuth");
 
-router.get("/admin/ultimateblog/categories/new", (req, res) => {
+router.get("/admin/ultimateblog/categories/new", adminAuth, (req, res) => {
     res.render("admin/categories/new")
 });
 
-router.post("/admin/ultimateblog/categories/save", (req, res) => {
+router.post("/admin/ultimateblog/categories/save", adminAuth, (req, res) => {
     const title = req.body.title;
     if(title != undefined){
         Category.create({
@@ -22,7 +23,7 @@ router.post("/admin/ultimateblog/categories/save", (req, res) => {
 
 });
 
-router.get("/admin/ultimateblog/categories", (req, res) =>{
+router.get("/admin/ultimateblog/categories", adminAuth, (req, res) =>{
     
     Category.findAll().then(categories => {
 
@@ -31,7 +32,7 @@ router.get("/admin/ultimateblog/categories", (req, res) =>{
     
 });
 
-router.post("/admin/ultimateblog/categories/delete", (req, res) => {
+router.post("/admin/ultimateblog/categories/delete", adminAuth, (req, res) => {
     const id = req.body.id;
     if(id != undefined){
         if(!isNaN(id)){
@@ -52,7 +53,7 @@ router.post("/admin/ultimateblog/categories/delete", (req, res) => {
     }
 });
 
-router.get("/admin/ultimateblog/categories/edit/:id", (req, res) => {
+router.get("/admin/ultimateblog/categories/edit/:id", adminAuth, (req, res) => {
     const id = req.params.id;
 
     if(isNaN(id)){
@@ -73,7 +74,7 @@ router.get("/admin/ultimateblog/categories/edit/:id", (req, res) => {
 
 });
 
-router.post("/admin/ultimateblog/categories/edit", (req, res) => {
+router.post("/admin/ultimateblog/categories/edit", adminAuth, (req, res) => {
     const id = req.body.id;
     const title = req.body.title;
 
